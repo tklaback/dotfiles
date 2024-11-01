@@ -8,12 +8,11 @@ mkdir -p "$XDG_CONFIG_HOME"
 ln -sf "$PWD/nvim" "$XDG_CONFIG_HOME"/nvim
 ln -sf "$PWD/.zshrc" "$HOME"/.zshrc
 
-# Update the package manager and install only the essential dependencies
+# Update the package manager and install essential dependencies
 sudo apt update
 
-# List of essential packages needed for your Neovim setup
+# Essential packages needed for your Neovim setup
 packages=(
-	fd-find  # fd replacement as fdfind
 	ripgrep  # For searching within files
 	npm      # Node.js package manager, useful for Neovim plugins
 	neovim   # Neovim itself
@@ -25,8 +24,14 @@ for package in "${packages[@]}"; do
 	sudo apt install -y "$package"
 done
 
-# Setting up Neovim plugins with lazy.nvim (assuming lazy.nvim is your plugin manager)
+# Install lazy.nvim if it's not already installed
+if [ ! -d "$XDG_CONFIG_HOME/nvim/lazy/lazy.nvim" ]; then
+    echo "Installing lazy.nvim..."
+    git clone https://github.com/folke/lazy.nvim.git "$XDG_CONFIG_HOME/nvim/lazy/lazy.nvim"
+fi
+
+# Setting up Neovim plugins with lazy.nvim
 echo "Setting up Neovim plugins..."
-nvim --headless "+Lazy! sync" +qa
+nvim --headless "+Lazy sync" +qa
 
 echo "Dotfiles and environment have been set up successfully."
