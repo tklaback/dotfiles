@@ -1,25 +1,32 @@
 #!/bin/bash
+
+# Define configuration home
 export XDG_CONFIG_HOME="$HOME"/.config
 mkdir -p "$XDG_CONFIG_HOME"
 
-# Create symbolic links for configuration files
+# Create symbolic links for your Neovim and Zsh configuration
 ln -sf "$PWD/nvim" "$XDG_CONFIG_HOME"/nvim
-ln -sf "$PWD/.bashrc" "$HOME"/.bashrc
+ln -sf "$PWD/.zshrc" "$HOME"/.zshrc
 
-# Update and install packages using apt
+# Update the package manager and install only the essential dependencies
 sudo apt update
 
+# List of essential packages needed for your Neovim setup
 packages=(
-	fd-find
-	ripgrep
-	npm
-	starship
-	lazygit
+	fd-find  # fd replacement as fdfind
+	ripgrep  # For searching within files
+	npm      # Node.js package manager, useful for Neovim plugins
+	neovim   # Neovim itself
 )
 
+# Install each package
 for package in "${packages[@]}"; do
 	echo "Installing $package..."
 	sudo apt install -y "$package"
 done
 
-echo "All packages from the setup script have been installed."
+# Setting up Neovim plugins with lazy.nvim (assuming lazy.nvim is your plugin manager)
+echo "Setting up Neovim plugins..."
+nvim --headless "+Lazy! sync" +qa
+
+echo "Dotfiles and environment have been set up successfully."
