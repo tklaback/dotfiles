@@ -3,10 +3,18 @@ export XDG_CONFIG_HOME="$HOME"/.config
 mkdir -p "$XDG_CONFIG_HOME"
 
 ln -sf "$PWD/nvim" "$XDG_CONFIG_HOME"/nvim
+ln -sf "$PWD/.bashrc" "$HOME"/.bashrc
 
-ln -sf "$PWD/.zshrc" "$HOME"/.zshrc
+# Install Homebrew if it’s not already installed
+if ! command -v brew &>/dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile
+    # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 packages=(
+  neovim
 	fd
 	ripgrep
 	npm
@@ -15,7 +23,5 @@ packages=(
 
 for package in "${packages[@]}"; do
 	echo "Installing $package..."
-	sudo apt install "$package" --assume-yes
+	/home/linuxbrew/.linuxbrew/bin/brew install "$package"
 done
-
-echo "All packages from the setup script have been installed."
