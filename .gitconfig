@@ -1,0 +1,19 @@
+[user]
+	email = klabacka.ty@gmail.com
+	name = Ty Klabacka
+[pull]
+	ff = only
+
+[pager]
+  log = false
+  branch = false
+  stash = false
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	unstage = reset HEAD --
+	visual = log -15 --oneline --all --graph --decorate
+[core]
+	editor = nvim
